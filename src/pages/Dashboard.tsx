@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import UserList from "../features/users/UserList";
-// import MannerList from "../features/manners/MannerList";
-// import QuizList from "../features/quizzes/QuizList";
-// import VocaList from "../features/vocas/VocaList";
+import MannerList from "../features/manners/MannerList";
+import QuizList from "../features/quizzes/QuizList";
+import VocaList from "../features/vocas/VocaList";
 
 export default function Dashboard() {
   const [tab, setTab] = useState("users");
@@ -18,14 +18,14 @@ export default function Dashboard() {
     <div className="min-h-screen bg-gray-100">
       {/* Header */}
       <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <div className="max-w-4xl mx-auto px-6 py-4 text-center">
           <h1 className="text-3xl font-bold text-gray-800">관리자 대시보드</h1>
         </div>
       </header>
 
       {/* Tabs */}
       <nav className="bg-white border-b">
-        <div className="max-w-7xl mx-auto px-6 py-2 flex space-x-4">
+        <div className="max-w-4xl mx-auto px-6 py-2 flex justify-center space-x-4">
           {tabs.map(({ id, label }) => (
             <button
               key={id}
@@ -43,11 +43,11 @@ export default function Dashboard() {
       </nav>
 
       {/* Content */}
-      <main className="max-w-7xl mx-auto px-6 py-6">
+      <main className="max-w-6xl mx-auto px-6 py-6">
         {tab === "users" && <UserList />}
-        {/* {tab === "manners" && <MannerList />} */}
-        {/* {tab === "quizzes" && <QuizList />} */}
-        {/* {tab === "vocas" && <VocaList />} */}
+        {tab === "manners" && <MannerList />}
+        {tab === "quizzes" && <QuizList />}
+        {tab === "vocas" && <VocaList />}
       </main>
     </div>
   );
