@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import QuizAPI from "./QuizAPI";
+import { useNavigate } from "react-router-dom";
 
 interface Quiz {
   quizId: number;
@@ -19,10 +20,18 @@ export default function QuizManager() {
     description: "",
     questionDetail: "",
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      // 토큰이 없으면 로그인 페이지로 리디렉션
+      navigate("/");
+      return;
+    }
+
     fetchQuizzes();
-  }, []);
+  }, [navigate]);
 
   const fetchQuizzes = async () => {
     try {

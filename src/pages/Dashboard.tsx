@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import UserList from "../features/users/UserList";
 import MannerList from "../features/manners/MannerList";
 import QuizList from "../features/quizzes/QuizList";
 import VocaList from "../features/vocas/VocaList";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   const [tab, setTab] = useState("users");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const tabs = [
     { id: "users", label: "사용자" },
@@ -13,6 +16,20 @@ export default function Dashboard() {
     { id: "quizzes", label: "퀴즈" },
     { id: "vocas", label: "단어" },
   ];
+
+  // 인증된 사용자만 접근할 수 있도록 설정
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      navigate("/"); // 인증되지 않은 경우 로그인 페이지로 리디렉션
+    } else {
+      setIsAuthenticated(true);
+    }
+  }, [navigate]);
+
+  if (!isAuthenticated) {
+    return null; // 인증되지 않은 경우, 대시보드 내용은 렌더링하지 않음
+  }
 
   return (
     <div className="min-h-screen bg-gray-100">

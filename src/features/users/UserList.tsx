@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchUsers } from "./userAPI";
+import { useNavigate } from "react-router-dom";
 
 interface User {
   userId: number;
@@ -12,10 +13,23 @@ interface User {
 
 export default function UserList() {
   const [users, setUsers] = useState<User[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetchUsers().then(setUsers);
-  }, []);
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      // 토큰이 없으면 로그인 페이지로 리디렉션
+      navigate("/");
+      return;
+    }
+
+    fetchUsers()
+      .then(setUsers)
+      .catch((err) => {
+        console.error(err);
+        alert("사용자 데이터를 가져오는 데 실패했습니다.");
+      });
+  }, [navigate]);
 
   return (
     <div>
