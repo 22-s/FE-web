@@ -2,7 +2,18 @@ import axios from "../../api/axios";
 
 const MannerAPI = {
   getAll: async () => {
-    const res = await axios.get("/admin/manners");
+    const token = localStorage.getItem("accessToken"); // 로컬스토리지에서 토큰 가져오기
+
+    if (!token) {
+      throw new Error("No access token found.");
+    }
+
+    const res = await axios.get("/admin/manners", {
+      headers: {
+        Authorization: `Bearer ${token}`, // JWT 토큰을 Authorization 헤더에 추가
+      },
+    });
+
     return res.data;
   },
 
@@ -12,11 +23,31 @@ const MannerAPI = {
     imageUrl: string;
     content: string;
   }) => {
-    await axios.post("/admin/manners", data);
+    const token = localStorage.getItem("accessToken"); // 로컬스토리지에서 토큰 가져오기
+
+    if (!token) {
+      throw new Error("No access token found.");
+    }
+
+    await axios.post("/admin/manners", data, {
+      headers: {
+        Authorization: `Bearer ${token}`, // JWT 토큰을 Authorization 헤더에 추가
+      },
+    });
   },
 
   delete: async (mannerId: number) => {
-    await axios.delete(`/admin/manners/${mannerId}`);
+    const token = localStorage.getItem("accessToken"); // 로컬스토리지에서 토큰 가져오기
+
+    if (!token) {
+      throw new Error("No access token found.");
+    }
+
+    await axios.delete(`/admin/manners/${mannerId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`, // JWT 토큰을 Authorization 헤더에 추가
+      },
+    });
   },
 };
 

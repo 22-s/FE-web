@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import MannerAPI from "./MannerAPI";
+import { useNavigate } from "react-router-dom";
 
 interface Manner {
   mannerId: number;
@@ -17,10 +18,18 @@ export default function MannerList() {
     imageUrl: "",
     content: "",
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      // 토큰이 없으면 로그인 페이지로 리디렉션
+      navigate("/");
+      return;
+    }
+
     fetchManners();
-  }, []);
+  }, [navigate]);
 
   const fetchManners = async () => {
     try {
@@ -69,67 +78,70 @@ export default function MannerList() {
     "직장인 글쓰기 Tip",
     "팀장님께 메일 보내기",
     "커뮤니케이션 매너",
-    "TPO에 맞는 복장"
+    "TPO에 맞는 복장",
   ];
 
   return (
     <div className="space-y-8">
       <div>
         <h2 className="text-xl font-bold mb-4">매너 등록</h2>
-          <form onSubmit={handleSubmit} className="space-y-4 bg-gray-50 p-6 rounded shadow-md">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input
-                type="text"
-                name="title"
-                placeholder="제목"
-                value={newManner.title}
-                onChange={handleChange}
-                className="border p-2 rounded"
-                required
-              />
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 bg-gray-50 p-6 rounded shadow-md"
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <input
+              type="text"
+              name="title"
+              placeholder="제목"
+              value={newManner.title}
+              onChange={handleChange}
+              className="border p-2 rounded"
+              required
+            />
 
-              <select
-                name="category"
-                value={newManner.category}
-                onChange={handleChange}
-                className="border p-2 rounded"
-                required
-              >
-                <option value="">카테고리 선택</option>
-                {categories.map((cat) => (
-                  <option key={cat} value={cat}>
-                    {cat}
-                  </option>
-                ))}
-              </select>
-
-              <input
-                type="text"
-                name="imageUrl"
-                placeholder="이미지 URL"
-                value={newManner.imageUrl}
-                onChange={handleChange}
-                className="border p-2 rounded"
-              />
-
-              <textarea
-                name="content"
-                placeholder="내용"
-                value={newManner.content}
-                onChange={handleChange}
-                className="border p-2 rounded col-span-1 md:col-span-2"
-                rows={3}
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            <select
+              name="category"
+              value={newManner.category}
+              onChange={handleChange}
+              className="border p-2 rounded"
+              required
             >
-              등록하기
-            </button>
-          </form>
+              <option value="">카테고리 선택</option>
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+
+            <input
+              type="text"
+              name="imageUrl"
+              placeholder="이미지 URL"
+              value={newManner.imageUrl}
+              onChange={handleChange}
+              className="border p-2 rounded"
+            />
+
+            <textarea
+              name="content"
+              placeholder="내용"
+              value={newManner.content}
+              onChange={handleChange}
+              className="border p-2 rounded col-span-1 md:col-span-2"
+              rows={3}
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          >
+            등록하기
+          </button>
+        </form>
       </div>
 
       <div>
@@ -149,9 +161,13 @@ export default function MannerList() {
               )}
               <div className="p-4 flex-1 flex flex-col justify-between">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-800 mb-1">{manner.title}</h3>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-1">
+                    {manner.title}
+                  </h3>
                   <p className="text-sm text-gray-700 mb-2">{manner.content}</p>
-                  <span className="text-xs text-gray-400">카테고리: {manner.category}</span>
+                  <span className="text-xs text-gray-400">
+                    카테고리: {manner.category}
+                  </span>
                 </div>
                 <button
                   onClick={() => handleDelete(manner.mannerId)}

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import VocaAPI from "./VocaAPI";
+import { useNavigate } from "react-router-dom";
 
 interface Voca {
   vocaId: number;
@@ -17,10 +18,18 @@ export default function VocaManager() {
     description: "",
     example: "",
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (!token) {
+      // 토큰이 없으면 로그인 페이지로 리디렉션
+      navigate("/");
+      return;
+    }
+
     fetchVocas();
-  }, []);
+  }, [navigate]);
 
   const fetchVocas = async () => {
     try {
