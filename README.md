@@ -1,3 +1,4 @@
+## [소프트웨어공학] 22's팀 신입사UP 관리자용 웹 레포지토리입니다.
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
