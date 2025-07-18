@@ -9,6 +9,7 @@ interface Quiz {
   answer: string;
   description: string;
   questionDetail: string;
+  quizLevel: string;
 }
 
 export default function QuizManager() {
@@ -19,6 +20,7 @@ export default function QuizManager() {
     answer: "O",
     description: "",
     questionDetail: "",
+    quizLevel: "",
   });
   const navigate = useNavigate();
 
@@ -63,6 +65,7 @@ export default function QuizManager() {
         answer: "O",
         description: "",
         questionDetail: "",
+        quizLevel: "",
       });
       fetchQuizzes();
     } catch (err) {
@@ -155,6 +158,20 @@ export default function QuizManager() {
           />
         </div>
 
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">난이도</label>
+          <select
+            name="quizLevel"
+            value={formData.quizLevel}
+            onChange={handleChange}
+            className="w-full border rounded p-2"
+          >
+            <option value="EASY">EASY</option>
+            <option value="MEDIUM">MEDIUM</option>
+            <option value="HIGH">HIGH</option>
+          </select>
+        </div>
+
         <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
           등록
         </button>
@@ -183,6 +200,11 @@ export default function QuizManager() {
             <div className="mb-2">
               <span className="text-xs text-gray-500 font-semibold mr-2">카테고리:</span>
               <span className="text-sm text-blue-600">{quiz.category}</span>
+            </div>
+
+            <div className="mb-2">
+              <span className="text-xs text-gray-500 font-semibold mr-2">난이도:</span>
+              <span className="text-sm text-blue-600">{quiz.quizLevel}</span>
             </div>
 
             <div className="mb-2">

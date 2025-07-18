@@ -8,11 +8,6 @@ export const fetchUsers = async () => {
   }
 
   // GET 요청을 보낼 때 Authorization 헤더에 Bearer token을 추가하여 보내줍니다.
-  const response = await axios.get("/admin/users", {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  return response.data; // 응답 데이터를 반환합니다.
+  const response = await axios.get("/admin/users");
+  return response.data.result; // 응답 데이터를 반환합니다.
 };

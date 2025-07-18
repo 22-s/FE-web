@@ -23,7 +23,6 @@ export default function MannerList() {
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (!token) {
-      // 토큰이 없으면 로그인 페이지로 리디렉션
       navigate("/");
       return;
     }
@@ -34,7 +33,7 @@ export default function MannerList() {
   const fetchManners = async () => {
     try {
       const data = await MannerAPI.getAll();
-      setManners(data);
+      setManners(data); // ✅ 이 data는 이제 배열임!
     } catch (err) {
       console.error("매너 조회 실패:", err);
     }

@@ -1,20 +1,35 @@
 import axios from "../../api/axios";
 
+interface Voca {
+  vocaId: number;
+  category: string;
+  term: string;
+  description: string;
+  example: string;
+}
+
+interface ApiResponse<T> {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: T;
+}
+
 const VocaAPI = {
-  getAll: async () => {
-    const token = localStorage.getItem("accessToken");  // 로컬스토리지에서 토큰 가져오기
+  getAll: async (): Promise<Voca[]> => {
+    const token = localStorage.getItem("accessToken");
 
     if (!token) {
       throw new Error("No access token found.");
     }
 
-    const res = await axios.get("/admin/vocas", {
+    const res = await axios.get<ApiResponse<Voca[]>>("/admin/vocas", {
       headers: {
-        Authorization: `Bearer ${token}`,  // JWT 토큰을 Authorization 헤더에 추가
+        Authorization: `Bearer ${token}`,
       },
     });
 
-    return res.data;
+    return res.data.result; // ✅ 이 부분이 핵심!
   },
 
   create: async (data: {
@@ -22,32 +37,40 @@ const VocaAPI = {
     term: string;
     description: string;
     example: string;
-  }) => {
-    const token = localStorage.getItem("accessToken");  // 로컬스토리지에서 토큰 가져오기
+  }): Promise<void> => {
+    const token = localStorage.getItem("accessToken");
 
     if (!token) {
       throw new Error("No access token found.");
     }
 
-    await axios.post("/admin/vocas", data, {
+    const res = await axios.post<ApiResponse<null>>("/admin/vocas", data, {
       headers: {
-        Authorization: `Bearer ${token}`,  // JWT 토큰을 Authorization 헤더에 추가
+        Authorization: `Bearer ${token}`,
       },
     });
+
+    if (!res.data.isSuccess) {
+      throw new Error(res.data.message);
+    }
   },
 
-  delete: async (vocaId: number) => {
-    const token = localStorage.getItem("accessToken");  // 로컬스토리지에서 토큰 가져오기
+  delete: async (vocaId: number): Promise<void> => {
+    const token = localStorage.getItem("accessToken");
 
     if (!token) {
       throw new Error("No access token found.");
     }
 
-    await axios.delete(`/admin/vocas/${vocaId}`, {
+    const res = await axios.delete<ApiResponse<null>>(`/admin/vocas/${vocaId}`, {
       headers: {
-        Authorization: `Bearer ${token}`,  // JWT 토큰을 Authorization 헤더에 추가
+        Authorization: `Bearer ${token}`,
       },
     });
+
+    if (!res.data.isSuccess) {
+      throw new Error(res.data.message);
+    }
   },
 };
 
