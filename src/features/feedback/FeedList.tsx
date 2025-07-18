@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import FeedAPI from "./feedAPI";
+import FeedAPI from "./FeedAPI";
 
 interface Feedback {
   feedbackId: number;
