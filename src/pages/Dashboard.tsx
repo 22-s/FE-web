@@ -4,6 +4,7 @@ import UserList from "../features/users/UserList";
 import MannerList from "../features/manners/MannerList";
 import QuizList from "../features/quizzes/QuizList";
 import VocaList from "../features/vocas/VocaList";
+import FeedList from "../features/feedback/FeedList";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -15,21 +16,19 @@ export default function Dashboard() {
     { id: "manners", label: "매너" },
     { id: "quizzes", label: "퀴즈" },
     { id: "vocas", label: "단어" },
+    { id: "feedback", label: "피드백" },
   ];
 
-  // 인증된 사용자만 접근할 수 있도록 설정
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (!token) {
-      navigate("/"); // 인증되지 않은 경우 로그인 페이지로 리디렉션
+      navigate("/");
     } else {
       setIsAuthenticated(true);
     }
   }, [navigate]);
 
-  if (!isAuthenticated) {
-    return null; // 인증되지 않은 경우, 대시보드 내용은 렌더링하지 않음
-  }
+  if (!isAuthenticated) return null;
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -65,6 +64,7 @@ export default function Dashboard() {
         {tab === "manners" && <MannerList />}
         {tab === "quizzes" && <QuizList />}
         {tab === "vocas" && <VocaList />}
+        {tab === "feedback" && <FeedList />}
       </main>
     </div>
   );
