@@ -18,7 +18,7 @@ export default function UserList() {
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (!token) {
-      // 토큰이 없으면 로그인 페이지로 리디렉션
+      // 토큰이 없으면 로그인 페이지로 이동
       navigate("/");
       return;
     }
@@ -26,13 +26,13 @@ export default function UserList() {
     fetchUsers()
       .then(setUsers)
       .catch((err) => {
-        console.error(err);
+        console.error("❌ 사용자 불러오기 실패:", err);
         alert("사용자 데이터를 가져오는 데 실패했습니다.");
       });
   }, [navigate]);
 
   return (
-    <div>
+    <div className="p-4">
       <h2 className="text-xl font-semibold mb-4">사용자 목록</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {users.map((user) => (
@@ -49,7 +49,9 @@ export default function UserList() {
               <p className="font-semibold text-gray-800">{user.nickname}</p>
               <p className="text-sm text-gray-600">{user.email}</p>
               <p className="text-sm text-gray-500">Provider: {user.provider}</p>
-              <p className="text-xs text-gray-400">가입일: {new Date(user.createdAt).toLocaleDateString()}</p>
+              <p className="text-xs text-gray-400">
+                가입일: {new Date(user.createdAt).toLocaleDateString()}
+              </p>
             </div>
           </div>
         ))}

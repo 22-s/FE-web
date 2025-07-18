@@ -1,20 +1,35 @@
 import axios from "../../api/axios";
 
+interface Manner {
+  mannerId: number;
+  category: string;
+  title: string;
+  imageUrl: string;
+  content: string;
+}
+
+interface ApiResponse<T> {
+  isSuccess: boolean;
+  code: number;
+  message: string;
+  result: T;
+}
+
 const MannerAPI = {
-  getAll: async () => {
-    const token = localStorage.getItem("accessToken"); // 로컬스토리지에서 토큰 가져오기
+  getAll: async (): Promise<Manner[]> => {
+    const token = localStorage.getItem("accessToken");
 
     if (!token) {
       throw new Error("No access token found.");
     }
 
-    const res = await axios.get("/admin/manners", {
+    const res = await axios.get<ApiResponse<Manner[]>>("/admin/manners", {
       headers: {
-        Authorization: `Bearer ${token}`, // JWT 토큰을 Authorization 헤더에 추가
+        Authorization: `Bearer ${token}`,
       },
     });
 
-    return res.data;
+    return res.data.result; // ✅ 핵심 수정!
   },
 
   create: async (data: {
@@ -22,32 +37,40 @@ const MannerAPI = {
     title: string;
     imageUrl: string;
     content: string;
-  }) => {
-    const token = localStorage.getItem("accessToken"); // 로컬스토리지에서 토큰 가져오기
+  }): Promise<void> => {
+    const token = localStorage.getItem("accessToken");
 
     if (!token) {
       throw new Error("No access token found.");
     }
 
-    await axios.post("/admin/manners", data, {
+    const res = await axios.post<ApiResponse<null>>("/admin/manners", data, {
       headers: {
-        Authorization: `Bearer ${token}`, // JWT 토큰을 Authorization 헤더에 추가
+        Authorization: `Bearer ${token}`,
       },
     });
+
+    if (!res.data.isSuccess) {
+      throw new Error(res.data.message);
+    }
   },
 
-  delete: async (mannerId: number) => {
-    const token = localStorage.getItem("accessToken"); // 로컬스토리지에서 토큰 가져오기
+  delete: async (mannerId: number): Promise<void> => {
+    const token = localStorage.getItem("accessToken");
 
     if (!token) {
       throw new Error("No access token found.");
     }
 
-    await axios.delete(`/admin/manners/${mannerId}`, {
+    const res = await axios.delete<ApiResponse<null>>(`/admin/manners/${mannerId}`, {
       headers: {
-        Authorization: `Bearer ${token}`, // JWT 토큰을 Authorization 헤더에 추가
+        Authorization: `Bearer ${token}`,
       },
     });
+
+    if (!res.data.isSuccess) {
+      throw new Error(res.data.message);
+    }
   },
 };
 
