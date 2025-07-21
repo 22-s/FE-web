@@ -18,5 +18,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git remote add fork https://x-access-token:${{ secrets.FORK_PAT }}github.com/haeun1107/FE-web.git
+          git remote add fork https://x-access-token:${{ secrets.FORK_PAT }}@github.com/haeun1107/FE-web.git
           git push fork main --force
