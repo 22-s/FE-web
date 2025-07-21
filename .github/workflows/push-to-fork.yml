@@ -19,7 +19,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           # 인증 포함된 remote URL 추가
-          git remote add fork https://x-access-token:${{ secrets.FORK_PAT }}@github.com/haeun1107/FE-web.git
+          git remote add fork https://x-access-token:${{ secrets.MY_PAT }}@github.com/haeun1107/FE-web.git
           
           # main 브랜치 강제 push
           git push fork main --force
