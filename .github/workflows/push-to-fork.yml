@@ -1,0 +1,22 @@
+name: Push to Fork on Main Update
+
+on:
+  push:
+    branches:
+      - main 
+
+jobs:
+  push-to-fork:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@v3
+
+      - name: Push to fork repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git remote add fork https://x-access-token:${{ secrets.FORK_PAT }}github.com/haeun1107/FE-web.git
+          git push fork main --force
