@@ -1,9 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://yg25j4rhll.execute-api.ap-northeast-2.amazonaws.com",
-  //baseURL: "https://port-0-twotwos-m69bdqoxaa7c9913.sel4.cloudtype.app"
-  //baseURL: "http://localhost:8080"
+  baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
 instance.interceptors.request.use((config) => {
