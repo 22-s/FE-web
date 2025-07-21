@@ -111,6 +111,7 @@ export default function QuizManager() {
             <option value="팀장님께 메일 보내기">팀장님께 메일 보내기</option>
             <option value="커뮤니케이션 매너">커뮤니케이션 매너</option>
             <option value="TPO에 맞는 복장">TPO에 맞는 복장</option>
+            <option value="CS">CS</option>
           </select>
         </div>
 
@@ -168,7 +169,7 @@ export default function QuizManager() {
           >
             <option value="EASY">EASY</option>
             <option value="MEDIUM">MEDIUM</option>
-            <option value="HIGH">HIGH</option>
+            <option value="HARD">HARD</option>
           </select>
         </div>
 
