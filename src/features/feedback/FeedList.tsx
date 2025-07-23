@@ -55,7 +55,8 @@ export default function FeedList() {
             </p>
             <p className="mt-2 text-gray-700">{feedback.content}</p>
             <p className="mt-2 text-sm text-gray-400">
-              {feedback.isAnonymous ? "익명 사용자" : `${feedback.nickname} (${feedback.email})`}
+              {/* {feedback.isAnonymous ? "익명 사용자" : `${feedback.nickname} (${feedback.email})`} */}
+              {`${feedback.nickname ?? ""} (${feedback.email ?? ""})`}
             </p>
           </div>
         ))}
